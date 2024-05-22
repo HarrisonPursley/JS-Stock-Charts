@@ -5,7 +5,6 @@ async function main() {
     const averagePriceChartCanvas = document.querySelector('#average-price-chart');
 
 }
-// KEY c21056ad0595494e8370f26f923720a9
 main(){
     const response = await fetch('https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=c21056ad0595494e8370f26f923720a9')
     const result = await response.json()
@@ -26,5 +25,26 @@ main(){
             }))
         }
     });
-    
+    new Chart(averagePriceChartCanvas.getContext('2d'), {
+        type: 'pie',
+        data {
+            labels: stocks.map(stock => stock.meta.symbol),
+            datasets: [(
+                label: 'Average',
+                backgroundColor: stocks.map(stock => (
+                    getColor(stock.meta.symbol)
+                )),
+                borderColor: stocks.map(stock => (
+                    getColor(stock.meta.symbol)
+                )),
+                data: stocks.map(stock => (
+                    calculateAverage(stock.values)
+                ))
+            )]
+        }
+    });
+}
+
+function findHighest(values) {
+
 }
